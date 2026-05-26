@@ -1,0 +1,42 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS / temp
+Thumbs.db
+ehthumbs.db
+desktop.ini
+
+# Overclock workspace files
+.overclock-app/
+
+# Figma reference exports (não usados em produção)
+[[]LP].svg
+BENTO GRID.svg
+[[]BARRA].svg
+[[]BOTÃO].svg
+[[]PALETA DE CORES].svg
+[[]LOGO 01].svg
+[[]LOGO 02].svg
+Metodologia.svg
+CALENDÁRIO.svg
+DesignSystem02.md
+WebSkill01.md
+CARD01/FOTOS PESSOAS.png
+# Keep: [DESIGN SYSTEM].md (doc), design-system.html (showcase)
+
