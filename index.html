@@ -1023,7 +1023,7 @@
     .diagnostic-head {
       text-align: center;
       max-width: 720px;
-      margin: 0 auto 80px;
+      margin: 0 auto 35px;
     }
     .diagnostic-head h2 { margin-bottom: 20px; }
     .diagnostic-grid {
@@ -1032,14 +1032,40 @@
       gap: 24px;
     }
     .step-card {
-      padding: 40px 32px;
+      padding: 0;
       border: 1px solid var(--color-neutral-100);
-      border-radius: var(--radius-md);
-      transition: border-color var(--transition-base), transform var(--transition-base);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      transition: border-color var(--transition-base), transform var(--transition-base), background 450ms ease;
+      background: var(--color-neutral-0);
     }
     .step-card:hover {
-      border-color: var(--color-primary);
+      border-color: transparent;
       transform: translateY(-4px);
+      background: linear-gradient(135deg, #06C4FE 0%, #2D5AD8 100%);
+    }
+    /* Espaço pra imagem no topo do card — limpo, sem hover */
+    .step-image {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      background:
+        radial-gradient(120% 80% at 30% 30%, rgba(6,196,254,0.18), transparent 60%),
+        radial-gradient(120% 80% at 70% 70%, rgba(45,90,216,0.14), transparent 60%),
+        linear-gradient(180deg, #F3FCFF 0%, #E4F6FD 100%);
+      overflow: hidden;
+    }
+    .step-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* Conteúdo do card abaixo da imagem — bg transparente herda do card */
+    .step-content {
+      padding: 32px 28px 36px;
+      background: transparent;
     }
     .step-num {
       display: inline-flex;
@@ -1051,18 +1077,30 @@
       color: var(--color-neutral-700);
       font-size: 14px;
       font-weight: 500;
-      margin-bottom: 24px;
+      margin-bottom: 20px;
       transition: background var(--transition-base), color var(--transition-base);
     }
-    .step-card:hover .step-num {
-      background: var(--color-primary);
-      color: var(--color-neutral-900);
+    .step-content h3 {
+      margin-bottom: 12px;
+      transition: color var(--transition-base);
     }
-    .step-card h3 { margin-bottom: 14px; }
-    .step-card p {
-      font-size: 15px;
+    .step-content p {
+      font-size: 20px;
       color: var(--color-neutral-500);
-      line-height: 1.65;
+      line-height: 1.5;
+      transition: color var(--transition-base);
+    }
+
+    /* HOVER no card → o card inteiro vira gradient + texto inverte */
+    .step-card:hover .step-num {
+      background: rgba(255, 255, 255, 0.18);
+      color: #FFFFFF;
+    }
+    .step-card:hover .step-content h3 {
+      color: #FFFFFF;
+    }
+    .step-card:hover .step-content p {
+      color: rgba(255, 255, 255, 0.85);
     }
 
     /* ═══════════════════ DOBRA 04 — FORMULÁRIO (única em #E4F6FD) ═══════════════════ */
@@ -1088,8 +1126,8 @@
       flex-shrink: 0;
       width: 32px; height: 32px;
       border-radius: var(--radius-full);
-      background: var(--color-neutral-0);
-      color: var(--color-neutral-900);
+      background: linear-gradient(135deg, #06C4FE 0%, #2D5AD8 100%);
+      color: #FFFFFF;
       font-size: 13px;
       font-weight: 500;
       display: flex;
@@ -1097,25 +1135,28 @@
       justify-content: center;
     }
     .form-step-content h4 {
-      font-size: 17px;
+      font-size: 20px;
       font-weight: 500;
       color: var(--color-neutral-900);
       margin-bottom: 6px;
     }
     .form-step-content p {
-      font-size: 15px;
+      font-size: 20px;
       color: var(--color-neutral-700);
-      line-height: 1.6;
+      line-height: 1.5;
     }
     .form-card {
       background: var(--color-neutral-0);
       border-radius: var(--radius-lg);
       padding: 44px 40px;
     }
-    .form-card h3 { margin-bottom: 8px; }
+    .form-card h3 {
+      font-size: 20px;
+      margin-bottom: 8px;
+    }
     .form-card .body {
       margin-bottom: 32px;
-      font-size: 14px;
+      font-size: 16px;
     }
     .form-fields {
       display: flex;
@@ -1123,37 +1164,73 @@
       gap: 12px;
       margin-bottom: 24px;
     }
-    .form-fields input {
+    .form-fields input,
+    .form-fields select {
       width: 100%;
       height: 50px;
       padding: 0 18px;
-      background: var(--color-neutral-0);
-      border: 1px solid var(--color-neutral-100);
+      background: #D8E7EC;
+      border: 1px solid transparent;
       border-radius: var(--radius-sm);
       font-size: 15px;
+      font-family: var(--font-family);
       color: var(--color-neutral-900);
       outline: none;
-      transition: border-color var(--transition-base);
+      transition: border-color var(--transition-base), background var(--transition-base);
+      -webkit-appearance: none;
+         -moz-appearance: none;
+              appearance: none;
     }
-    .form-fields input::placeholder { color: var(--color-neutral-400); }
-    .form-fields input:focus { border-color: var(--color-primary); }
+    .form-fields select {
+      padding-right: 42px;
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='8' viewBox='0 0 14 8' fill='none'><path d='M1 1l6 6 6-6' stroke='%23636D86' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+      background-repeat: no-repeat;
+      background-position: right 16px center;
+      background-color: #D8E7EC;
+      cursor: pointer;
+    }
+    .form-fields input::placeholder { color: var(--color-neutral-500); }
+    .form-fields input:focus,
+    .form-fields select:focus { border-color: var(--color-primary); }
 
     /* ═══════════════════ DOBRA 05 — MÉTODO 3C ═══════════════════ */
     .method { padding: 120px 0; overflow: hidden; }
-    .method-head {
-      max-width: 760px;
-      margin: 0 auto 56px;
-      text-align: center;
+
+    /* Header grid: H2 esquerda + descrição/badge direita */
+    .method-head-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 80px;
+      align-items: start;
+      margin-bottom: 48px;
     }
-    .method-head h2 { margin-bottom: 20px; }
-    .method-cta { text-align: center; margin-top: 56px; }
+    .method-head-grid h2 {
+      font-size: 36px;
+      line-height: 1.15;
+      letter-spacing: -1px;
+    }
+    .method-head-right p {
+      font-size: 18px;
+      line-height: 1.55;
+      color: var(--color-neutral-700);
+      margin-bottom: 20px;
+    }
+    .method-badge {
+      display: inline-block;
+      padding: 8px 18px;
+      border-radius: 9999px;
+      border: 1px solid var(--color-neutral-400);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 1.5px;
+      color: var(--color-neutral-700);
+    }
 
     /* Diagrama */
     .method-diagram {
       position: relative;
-      max-width: 880px;
+      max-width: 1050px;
       margin: 0 auto;
-      padding: 60px 140px 0;
     }
     .method-diagram svg.diagram-svg {
       width: 100%;
@@ -1162,15 +1239,12 @@
       overflow: visible;
     }
 
-    /* Wedges — fill switches to gradient on hover */
+    /* Wedges — todos neutros por padrão, gradient no hover */
     .method-diagram .wedge {
       cursor: pointer;
-      transition: fill 600ms cubic-bezier(.16,1,.3,1);
+      transition: fill 500ms cubic-bezier(.16,1,.3,1);
+      fill: var(--color-neutral-100);
     }
-    .method-diagram .wedge-left  { fill: var(--color-neutral-100); }
-    .method-diagram .wedge-top   { fill: var(--color-neutral-100); }
-    .method-diagram .wedge-right { fill: var(--color-neutral-100); }
-
     .method-diagram .wedge:hover,
     .method-diagram[data-active="1"] .wedge-left,
     .method-diagram[data-active="2"] .wedge-top,
@@ -1178,105 +1252,120 @@
       fill: url(#wedge-hover-grad);
     }
 
-    /* Icons centered in the 3 small circles */
+    /* Arco externo do dome — desabilitado (substituído pelos arc-segments por fatia) */
+    .method-diagram .dome-outline {
+      stroke: transparent;
+      fill: none;
+    }
+
+    /* Arcos por fatia — invisíveis por padrão, drawn-in no hover do wedge */
+    .method-diagram .arc-segment {
+      fill: none;
+      stroke: #06C4FE;
+      stroke-width: 5;
+      stroke-linecap: round;
+      filter: drop-shadow(0 0 6px rgba(6, 196, 254, 0.45));
+      stroke-dasharray: var(--seg-len, 900);
+      stroke-dashoffset: var(--seg-len, 900);
+      pointer-events: none;
+      transition: stroke-dashoffset 700ms cubic-bezier(.16,1,.3,1);
+    }
+    .method-diagram[data-active="1"] .arc-left,
+    .method-diagram[data-active="2"] .arc-top,
+    .method-diagram[data-active="3"] .arc-right {
+      stroke-dashoffset: 0;
+    }
+
+    /* Ícones FIXOS dentro dos 3 pequenos círculos — sem transform no hover */
     .method-diagram .pillar-icon {
       pointer-events: none;
-      transition: stroke 400ms ease, transform 400ms cubic-bezier(.16,1,.3,1);
-      transform-origin: center;
-      transform-box: fill-box;
+      color: var(--color-neutral-900);
+      transition: color 350ms ease;
     }
     .method-diagram .pillar-icon path,
-    .method-diagram .pillar-icon circle,
-    .method-diagram .pillar-icon line {
+    .method-diagram .pillar-icon circle {
       fill: none;
-      stroke: var(--color-neutral-700);
-      stroke-width: 2.2;
+      stroke: currentColor;
+      stroke-width: 2.4;
       stroke-linecap: round;
       stroke-linejoin: round;
-      transition: stroke 400ms ease;
     }
-    .method-diagram[data-active="1"] .pillar-icon.icon-1 path,
-    .method-diagram[data-active="1"] .pillar-icon.icon-1 circle,
-    .method-diagram[data-active="2"] .pillar-icon.icon-2 path,
-    .method-diagram[data-active="3"] .pillar-icon.icon-3 path {
-      stroke: #06C4FE;
+    /* Dot final do gráfico (icon-3) fica preenchido */
+    .method-diagram .pillar-icon.icon-3 circle {
+      fill: currentColor;
+      stroke-width: 0;
     }
+    /* Hover/active: só muda cor do ícone, sem mover/escalar */
     .method-diagram[data-active="1"] .pillar-icon.icon-1,
     .method-diagram[data-active="2"] .pillar-icon.icon-2,
     .method-diagram[data-active="3"] .pillar-icon.icon-3 {
-      transform: scale(1.12);
+      color: var(--color-primary);
     }
 
-    /* HTML labels positioned around the diagram */
-    .pillar-label {
+    /* Pillar text labels INSIDE cada wedge — padrão consistente */
+    .method-pillar {
       position: absolute;
       width: 200px;
-      cursor: default;
+      text-align: center;
+      pointer-events: auto;
+      cursor: pointer;
+      transform: translateX(-50%);
       transition: transform 400ms cubic-bezier(.16,1,.3,1);
     }
-    .pillar-label .tag {
+    .method-pillar .name {
       display: block;
-      font-size: 11px;
+      font-size: 24px;
+      font-weight: 500;
       letter-spacing: 1.5px;
       text-transform: uppercase;
-      color: var(--color-neutral-400);
-      margin-bottom: 6px;
-      transition: color var(--transition-base);
-    }
-    .pillar-label .name {
-      display: block;
-      font-size: 22px;
-      font-weight: 500;
+      margin-bottom: 14px;
       color: var(--color-neutral-900);
-      letter-spacing: -0.4px;
-      margin-bottom: 8px;
+      transition: color 350ms ease;
     }
-    .pillar-label .desc {
-      font-size: 13px;
-      color: var(--color-neutral-500);
-      line-height: 1.55;
+    .method-pillar .desc {
+      font-size: 18px;
+      line-height: 1.45;
+      color: var(--color-neutral-700);
+      transition: color 350ms ease;
     }
-    .pillar-label.active .tag {
-      color: #06C4FE;
-    }
-    .pillar-label.active { transform: translateY(-2px); }
 
-    /* positions: BL icon ~ (79,277), TOP icon ~ (498,38), BR icon ~ (907,277) */
-    .pillar-label.pillar-1 {
-      left: -28px;
-      top: 38%;
-      text-align: right;
+    /* Hover/active: texto inverte para branco + lifta sutilmente */
+    .method-diagram[data-active="1"] .pillar-1 .name,
+    .method-diagram[data-active="2"] .pillar-2 .name,
+    .method-diagram[data-active="3"] .pillar-3 .name {
+      color: #FFFFFF;
     }
-    .pillar-label.pillar-2 {
-      left: 50%;
-      top: -36px;
-      transform: translateX(-50%);
-      text-align: center;
+    .method-diagram[data-active="1"] .pillar-1 .desc,
+    .method-diagram[data-active="2"] .pillar-2 .desc,
+    .method-diagram[data-active="3"] .pillar-3 .desc {
+      color: rgba(255, 255, 255, 0.95);
     }
-    .pillar-label.pillar-2.active {
-      transform: translateX(-50%) translateY(-4px);
+    .method-diagram[data-active="1"] .pillar-1,
+    .method-diagram[data-active="2"] .pillar-2,
+    .method-diagram[data-active="3"] .pillar-3 {
+      transform: translateX(-50%) translateY(-2px);
     }
-    .pillar-label.pillar-3 {
-      right: -28px;
-      top: 38%;
-      text-align: left;
-    }
+
+    /* Posições — centroide visual de cada wedge (LEFT 22% / TOP 50% / RIGHT 78%) */
+    .method-pillar.pillar-1 { left: 22%; top: 34%; }
+    .method-pillar.pillar-2 { left: 50%; top: 16%; }
+    .method-pillar.pillar-3 { left: 78%; top: 34%; }
 
     @media (max-width: 960px) {
-      .method-diagram {
-        padding: 60px 0 0;
-        max-width: 100%;
+      .method-head-grid {
+        grid-template-columns: 1fr;
+        gap: 24px;
       }
-      .pillar-label {
+      .method-head-grid h2 { font-size: 28px; }
+      .method-pillar {
         position: relative;
         width: auto;
         left: auto !important;
         right: auto !important;
         top: auto !important;
         transform: none !important;
-        text-align: center;
         margin: 12px auto;
-        max-width: 280px;
+        max-width: 320px;
       }
     }
 
@@ -1284,168 +1373,212 @@
     .imagine {
       background: var(--color-neutral-900);
       color: var(--color-neutral-50);
-      padding: 120px 0;
+      padding: 120px 0 200px;
       position: relative;
-      overflow: hidden;
+      /* sem overflow: hidden — quebra position: sticky dos cards */
     }
-    .imagine::before {
+    /* Blobs decorativos contidos em wrapper com overflow hidden */
+    .imagine-bg {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .imagine-bg::before {
       content: '';
       position: absolute;
       top: -200px; right: -200px;
       width: 600px; height: 600px;
       background: radial-gradient(circle, rgba(6,196,254,0.10) 0%, transparent 60%);
-      pointer-events: none;
     }
-    .imagine::after {
+    .imagine-bg::after {
       content: '';
       position: absolute;
       bottom: -300px; left: -200px;
       width: 700px; height: 700px;
       background: radial-gradient(circle, rgba(45,90,216,0.12) 0%, transparent 60%);
-      pointer-events: none;
     }
     .imagine .container { position: relative; }
+    /* Layout: headline esquerda (sticky) + cards à direita (stacking) */
+    .imagine-layout {
+      display: grid;
+      grid-template-columns: 380px 1fr;
+      gap: 80px;
+      align-items: start;
+    }
     .imagine-head {
-      max-width: 720px;
-      margin: 0 auto 80px;
-      text-align: center;
+      position: sticky;
+      top: 120px;
     }
     .imagine-head h2 {
       color: var(--color-neutral-0);
-      margin-bottom: 20px;
+      font-size: 40px;
+      line-height: 1.18;
+      letter-spacing: -0.8px;
     }
-    .imagine-head .lead {
-      color: var(--color-neutral-400);
+    /* Stack vertical de cards — cada um sticky pra empilhar no scroll */
+    .imagine-cards {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
     }
-    .imagine-flow {
+    .imagine-card {
+      position: sticky;
       display: grid;
-      grid-template-columns: 1fr;
-      gap: 16px;
-      margin-bottom: 64px;
-    }
-    .imagine-row {
-      display: grid;
-      grid-template-columns: 90px 1fr;
+      grid-template-columns: 200px 1fr;
       gap: 32px;
       align-items: center;
-      padding: 32px 36px;
-      border: 1px solid rgba(255,255,255,0.06);
-      background: rgba(255,255,255,0.02);
-      border-radius: var(--radius-md);
-      transition: border-color var(--transition-base), background var(--transition-base), transform var(--transition-base);
+      background: #2E3C5E; /* opaco — cada card cobre o anterior ao stackar */
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 24px;
+      padding: 28px;
+      transition: border-color 300ms ease;
     }
-    .imagine-row:hover {
-      border-color: rgba(6,196,254,0.4);
-      background: rgba(6,196,254,0.04);
-      transform: translateX(4px);
+    /* Cada card "para" em um topo ligeiramente diferente — empilha como deck de cartas */
+    .imagine-card:nth-child(1) { top: 120px; }
+    .imagine-card:nth-child(2) { top: 144px; }
+    .imagine-card:nth-child(3) { top: 168px; }
+    .imagine-card:nth-child(4) { top: 192px; }
+    .imagine-card:hover {
+      border-color: rgba(6, 196, 254, 0.4);
     }
-    .imagine-step {
-      font-size: 44px;
-      font-weight: 500;
-      color: rgba(255,255,255,0.15);
-      letter-spacing: -2px;
-      transition: color var(--transition-base);
-    }
-    .imagine-row:hover .imagine-step {
-      color: var(--color-primary);
-    }
-    .imagine-row-content h3 {
-      font-size: 22px;
-      color: var(--color-neutral-0);
-      margin-bottom: 8px;
-    }
-    .imagine-row-content p {
-      font-size: 15px;
-      color: var(--color-neutral-400);
-      line-height: 1.65;
-      max-width: 720px;
-    }
-    .imagine-foot {
-      text-align: center;
-      max-width: 640px;
-      margin: 0 auto;
-    }
-    .imagine-foot p {
-      font-size: 19px;
-      color: var(--color-neutral-50);
-      line-height: 1.6;
-      margin-bottom: 32px;
-    }
-    .imagine-foot p span { color: var(--color-primary); }
-
-    /* ═══════════════════ DOBRA 07 — SOBRE ═══════════════════ */
-    .about { padding: 120px 0; }
-    .about-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 80px;
-      align-items: center;
-    }
-    .about-content h2 { margin-bottom: 32px; }
-    .about-content p {
-      font-size: 17px;
-      color: var(--color-neutral-700);
-      line-height: 1.7;
-      margin-bottom: 20px;
-    }
-    .about-content p:last-child { margin-bottom: 0; }
-    .about-visual {
-      aspect-ratio: 4 / 5;
-      border-radius: var(--radius-lg);
-      background: var(--color-neutral-900);
-      padding: 48px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      position: relative;
+    .imagine-card-image {
+      aspect-ratio: 1 / 1;
+      border-radius: 16px;
+      background:
+        radial-gradient(120% 80% at 30% 30%, rgba(6,196,254,0.18), transparent 60%),
+        radial-gradient(120% 80% at 70% 70%, rgba(45,90,216,0.14), transparent 60%),
+        linear-gradient(180deg, #F3FCFF 0%, #E4F6FD 100%);
       overflow: hidden;
     }
-    .about-visual::before {
-      content: '';
-      position: absolute;
-      top: -40%; right: -40%;
-      width: 100%; height: 100%;
-      background: radial-gradient(circle, rgba(6,196,254,0.15) 0%, transparent 70%);
+    .imagine-card-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
     }
-    .about-visual-tag {
-      font-size: 11px;
-      color: var(--color-primary);
-      letter-spacing: 2px;
-      text-transform: uppercase;
-    }
-    .about-visual-stats {
+    .imagine-card-content {
       display: flex;
       flex-direction: column;
-      gap: 28px;
+      gap: 14px;
+    }
+    .imagine-badge {
+      display: inline-block;
+      width: fit-content;
+      padding: 6px 16px;
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      border-radius: 9999px;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 1.5px;
+      color: rgba(255, 255, 255, 0.85);
+    }
+    .imagine-card-content p {
+      font-size: 20px;
+      color: rgba(255, 255, 255, 0.95);
+      line-height: 1.5;
+      margin: 0;
+    }
+
+    /* Box CTA — sai do dark, fica entre seções com overlap leve */
+    .imagine-cta-wrap {
+      max-width: 1180px;
+      margin: -100px auto 0;
+      padding: 0 40px;
       position: relative;
+      z-index: 5;
+    }
+    .imagine-bottom-cta {
+      background: var(--color-neutral-100);
+      border-radius: 36px;
+      padding: 60px 72px;
+    }
+    .imagine-bottom-cta h2 {
+      font-size: 32px;
+      font-weight: 500;
+      color: var(--color-neutral-900);
+      letter-spacing: -0.5px;
+      line-height: 1.25;
+      max-width: 720px;
+      margin-bottom: 32px;
+    }
+    @media (max-width: 720px) {
+      .imagine-cta-wrap { margin-top: -80px; padding: 0 20px; }
+      .imagine-bottom-cta { padding: 40px 28px; border-radius: 28px; }
+      .imagine-bottom-cta h2 { font-size: 24px; }
+    }
+
+    /* ═══════════════════ DOBRA 07 — SOBRE ═══════════════════ */
+    .about { padding: 80px 0 120px; }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1.05fr 1fr;
+      gap: 64px;
+      align-items: center;
+    }
+    .about-content h2 {
+      font-size: 56px;
+      font-weight: 500;
+      letter-spacing: -1.6px;
+      line-height: 1.05;
+      color: var(--color-neutral-900);
+      margin-bottom: 28px;
+    }
+    .about-paragraphs p {
+      font-size: 15.5px;
+      color: var(--color-neutral-700);
+      line-height: 1.65;
+      margin-bottom: 18px;
+      max-width: 480px;
+    }
+    .about-paragraphs p:last-child { margin-bottom: 0; }
+    .about-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px 36px;
+      margin-top: 40px;
+      align-items: center;
+    }
+    .about-stat {
+      display: flex;
+      align-items: center;
+      gap: 14px;
     }
     .about-stat-num {
-      font-size: 64px;
+      font-size: 44px;
       font-weight: 500;
-      letter-spacing: -2.5px;
-      color: var(--color-neutral-0);
+      letter-spacing: -1.4px;
+      color: var(--color-neutral-900);
       line-height: 1;
     }
-    .about-stat-num span {
-      background: linear-gradient(135deg, #00AEFF, #3C3CCE);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
     .about-stat-label {
-      font-size: 15px;
-      color: var(--color-neutral-400);
-      margin-top: 8px;
+      font-size: 13.5px;
+      color: var(--color-neutral-700);
+      line-height: 1.25;
+      max-width: 140px;
     }
-    .about-divider {
-      height: 1px;
-      background: rgba(255,255,255,0.08);
+    .about-stats .btn { white-space: nowrap; }
+    .about-photo {
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      aspect-ratio: 650 / 665; /* proporção nativa do webp */
+      background: linear-gradient(135deg, #cde9f4 0%, #b5d6e9 100%);
+      box-shadow: 0 24px 60px -24px rgba(15, 32, 80, 0.18);
+    }
+    .about-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      display: block;
     }
 
     /* ═══════════════════ DOBRA 08 — CTA FINAL ═══════════════════ */
     .final-cta {
       padding: 120px 0 160px;
       text-align: center;
+      background: #E4F6FD;
     }
     .final-cta h2 {
       font-size: 56px;
@@ -1454,6 +1587,7 @@
       margin: 0 auto 24px;
     }
     .final-cta .lead {
+      font-size: 20px;
       max-width: 560px;
       margin: 0 auto 40px;
     }
@@ -1531,10 +1665,17 @@
       .pillars { grid-template-columns: 1fr; }
       .navbar-pill { display: none; }
       .container { padding: 0 20px; }
-      .imagine-row { grid-template-columns: 60px 1fr; padding: 24px; }
-      .imagine-step { font-size: 32px; }
+      .imagine-layout { grid-template-columns: 1fr; gap: 32px; }
+      .imagine-head h2 { font-size: 26px; }
+      .imagine-card { grid-template-columns: 1fr; gap: 16px; padding: 20px; }
+      .imagine-card-image { max-width: 240px; margin: 0 auto; }
       .chart-content { grid-template-columns: 1fr; gap: 16px; }
       .chart-circle { display: none; }
+      .about-grid { grid-template-columns: 1fr; gap: 40px; }
+      .about-content h2 { font-size: 38px; }
+      .about-stats { grid-template-columns: 1fr 1fr; gap: 20px; }
+      .about-stat-num { font-size: 36px; }
+      .about-stats .btn { grid-column: 1 / -1; justify-self: start; }
     }
     @media (max-width: 640px) {
       .bento {
@@ -1832,21 +1973,30 @@
 
       <div class="diagnostic-grid">
         <div class="step-card reveal reveal-d1">
-          <div class="step-num">01</div>
-          <h3>Onde sua clínica está hoje</h3>
-          <p>Começamos com uma análise completa do seu consultório: como você atrai paciente atualmente, como funciona o seu comercial e onde exatamente você está perdendo agendamento. Mapeamos juntos os gargalos que travam o seu crescimento.</p>
+          <div class="step-image"><!-- adicione <img src="..." alt=""/> quando tiver a foto --></div>
+          <div class="step-content">
+            <div class="step-num">01</div>
+            <h3>Onde sua clínica está hoje</h3>
+            <p>Começamos com uma análise completa do seu consultório: como você atrai paciente atualmente, como funciona o seu comercial e onde exatamente você está perdendo agendamento. Mapeamos juntos os gargalos que travam o seu crescimento.</p>
+          </div>
         </div>
 
         <div class="step-card reveal reveal-d2">
-          <div class="step-num">02</div>
-          <h3>O que seu consultório realmente precisa</h3>
-          <p>Com o raio-x em mãos, mostramos exatamente o que precisa ser resolvido: atração, comercial ou gestão e em qual ponto faz sentido a sua clínica começar. Sem empurrar pacote: o caminho certo pro seu momento.</p>
+          <div class="step-image"><!-- adicione <img src="..." alt=""/> quando tiver a foto --></div>
+          <div class="step-content">
+            <div class="step-num">02</div>
+            <h3>O que seu consultório realmente precisa</h3>
+            <p>Com o raio-x em mãos, mostramos exatamente o que precisa ser resolvido: atração, comercial ou gestão e em qual ponto faz sentido a sua clínica começar. Sem empurrar pacote: o caminho certo pro seu momento.</p>
+          </div>
         </div>
 
         <div class="step-card reveal reveal-d3">
-          <div class="step-num">03</div>
-          <h3>Seu plano de ação estratégico</h3>
-          <p>Você sai do diagnóstico com um plano claro: o que fazer, em que ordem e o que esperar de resultado. O caminho concreto para parar de depender de indicação e ter uma agenda previsível.</p>
+          <div class="step-image"><!-- adicione <img src="..." alt=""/> quando tiver a foto --></div>
+          <div class="step-content">
+            <div class="step-num">03</div>
+            <h3>Seu plano de ação estratégico</h3>
+            <p>Você sai do diagnóstico com um plano claro: o que fazer, em que ordem e o que esperar de resultado. O caminho concreto para parar de depender de indicação e ter uma agenda previsível.</p>
+          </div>
         </div>
       </div>
     </div>
@@ -1888,7 +2038,14 @@
             <input type="text" placeholder="Qual a sua especialidade / área de atuação?" required />
             <input type="email" placeholder="Qual o seu e-mail preferencial?" required />
             <input type="text" placeholder="Ótimo, qual o seu Instagram?" />
-            <input type="text" placeholder="Qual é a renda média mensal do seu consultório?" />
+            <select required>
+              <option value="" disabled selected>Qual é a renda média mensal do seu consultório?</option>
+              <option value="10-20">R$ 10 mil a R$ 20 mil</option>
+              <option value="30-40">R$ 30 mil a R$ 40 mil</option>
+              <option value="50-60">R$ 50 mil a R$ 60 mil</option>
+              <option value="60-100">R$ 60 mil a R$ 100 mil</option>
+              <option value="100+">Acima de R$ 100 mil</option>
+            </select>
           </div>
 
           <button type="submit" class="btn btn-primary btn-block btn-icon-arrow">
@@ -1904,22 +2061,30 @@
   <!-- ═══════════════ DOBRA 05 — MÉTODO 3C ═══════════════ -->
   <section class="method" id="metodo">
     <div class="container">
-      <div class="method-head reveal">
-        <div class="eyebrow">Método 3C</div>
-        <h2>Da captação ao paciente agendado, com gestão do consultório.</h2>
-        <p class="lead">Enquanto as agências comuns te entregam leads que somem, a Nevel MED cuida do caminho inteiro.</p>
+      <div class="method-head-grid reveal">
+        <h2>O método 3C da Nevel: da captação ao paciente agendado com gestão do consultório.</h2>
+        <div class="method-head-right">
+          <p>Enquanto as agências comuns te entregam leads que somem, a Nevel MED cuida do caminho inteiro.</p>
+          <span class="method-badge">NOSSA METODOLOGIA</span>
+        </div>
       </div>
 
       <div class="method-diagram reveal" id="methodDiagram">
         <svg class="diagram-svg" viewBox="0 0 999 731" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
           <!-- Outer arc -->
           <path d="M499.5 25.8416C631.046 25.8416 757.205 78.1502 850.224 171.261C942.418 263.548 994.569 388.424 995.486 518.842H3.51367C4.4309 388.424 56.5823 263.548 148.776 171.261C241.795 78.1502 367.954 25.8415 499.5 25.8416Z" stroke="#E4F6FD" stroke-width="7"/>
-          <path d="M499.5 25.8416C631.046 25.8416 757.205 78.1502 850.224 171.261C942.418 263.548 994.569 388.424 995.486 518.842H3.51367C4.4309 388.424 56.5823 263.548 148.776 171.261C241.795 78.1502 367.954 25.8415 499.5 25.8416Z" stroke="url(#paint0_linear_2308_168)" stroke-width="7"/>
+          <path class="dome-outline" d="M499.5 25.8416C631.046 25.8416 757.205 78.1502 850.224 171.261C942.418 263.548 994.569 388.424 995.486 518.842H3.51367C4.4309 388.424 56.5823 263.548 148.776 171.261C241.795 78.1502 367.954 25.8415 499.5 25.8416Z" stroke="url(#paint0_linear_2308_168)" stroke-width="7" fill="none"/>
 
           <!-- WEDGES -->
           <path class="wedge wedge-right" data-pillar="3" d="M981 522.342C981 437.558 958.682 354.267 916.29 280.842C873.898 207.417 812.925 146.444 739.5 104.052L498 522.342H981Z"/>
           <path class="wedge wedge-left"  data-pillar="1" d="M256.5 104.052C183.075 146.444 122.102 207.417 79.7097 280.842C37.3176 354.267 15 437.558 15 522.342L498 522.342L256.5 104.052Z"/>
           <path class="wedge wedge-top"   data-pillar="2" d="M498.441 40.3425C582.626 40.5128 665.292 62.7303 738.214 104.773L497.47 520.339L258.408 103.802C331.5 62.0545 414.256 40.1722 498.441 40.3425Z" stroke="url(#paint2_linear_2308_168)" stroke-width="2"/>
+
+          <!-- 3 arcos por fatia (visíveis só no hover do wedge correspondente) -->
+          <path class="arc-segment arc-left" d="M256.5 104.052C183.075 146.444 122.102 207.417 79.7097 280.842C37.3176 354.267 15 437.558 15 522.342"/>
+          <path class="arc-segment arc-right" d="M981 522.342C981 437.558 958.682 354.267 916.29 280.842C873.898 207.417 812.925 146.444 739.5 104.052"/>
+          <path class="arc-segment arc-top" d="M258.408 103.802C331.5 62.0545 414.256 40.1722 498.441 40.3425C582.626 40.5128 665.292 62.7303 738.214 104.773"/>
+
 
           <!-- Bottom strip -->
           <rect x="15" y="529.94" width="966" height="5.42697" fill="#E4F6FD"/>
@@ -1993,117 +2158,118 @@
           </defs>
         </svg>
 
-        <!-- HTML labels around the diagram -->
-        <div class="pillar-label pillar-1" data-pillar="1">
-          <span class="tag">Pilar 01</span>
+        <!-- HTML labels positioned INSIDE each wedge -->
+        <div class="method-pillar pillar-1">
           <span class="name">Captação</span>
-          <span class="desc">Construímos sua autoridade nas redes e colocamos anúncios no ar para alcançar quem realmente quer marcar.</span>
+          <span class="desc">Conectamos você ao paciente certo com autoridade nas redes e anúncios direcionados para quem já tem intenção de agendar.</span>
         </div>
-        <div class="pillar-label pillar-2" data-pillar="2">
-          <span class="tag">Pilar 02</span>
+        <div class="method-pillar pillar-2">
           <span class="name">Comercial</span>
-          <span class="desc">Equipe treinada com apoio de IA que responde rápido, qualifica e transforma curioso em consulta marcada.</span>
+          <span class="desc">Enquanto você opera, nossa equipe com IA responde, qualifica e converte interesse em consulta marcada.</span>
         </div>
-        <div class="pillar-label pillar-3" data-pillar="3">
-          <span class="tag">Pilar 03</span>
+        <div class="method-pillar pillar-3">
           <span class="name">Controle</span>
-          <span class="desc">Painel único com o funil inteiro: origem dos pacientes, custo por consulta e previsibilidade com dados.</span>
+          <span class="desc">Num painel único, você enxerga o funil inteiro, origem, custo, agendamentos e o que realmente funciona. Previsibilidade com dados.</span>
         </div>
       </div>
 
-      <div class="method-cta reveal">
-        <a href="#contato" class="btn btn-primary btn-icon-arrow">
-          <div class="dots_border"></div>
-          <span class="text_button">Quero mais informações</span>
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-        </a>
-      </div>
     </div>
   </section>
 
   <!-- ═══════════════ DOBRA 06 — IMAGINE (DARK) ═══════════════ -->
   <section class="imagine">
+    <div class="imagine-bg" aria-hidden="true"></div>
     <div class="container">
-      <div class="imagine-head reveal">
-        <div class="eyebrow">Como fica o seu consultório</div>
-        <h2>Agora imagine o seu consultório funcionando da seguinte forma após aplicar a nossa metodologia.</h2>
+      <div class="imagine-layout">
+        <div class="imagine-head reveal">
+          <h2>Agora imagine<br/>o seu consultório funcionando da seguinte forma após aplicar a nossa metodologia:</h2>
+        </div>
+
+        <div class="imagine-cards">
+          <div class="imagine-card reveal reveal-d1">
+            <div class="imagine-card-image"><!-- adicione <img src="..."/> quando tiver a foto --></div>
+            <div class="imagine-card-content">
+              <span class="imagine-badge">PASSO 01</span>
+              <p>Pacientes qualificados chegam até você através de captação inteligente e da autoridade que o seu posicionamento transmite.</p>
+            </div>
+          </div>
+
+          <div class="imagine-card reveal reveal-d2">
+            <div class="imagine-card-image"><!-- adicione <img src="..."/> quando tiver a foto --></div>
+            <div class="imagine-card-content">
+              <span class="imagine-badge">PASSO 02</span>
+              <p>Atendimento comercial da sua equipe treinada e com apoio da IA que atende, qualifica, agenda e leva o paciente até a cadeira do seu consultório.</p>
+            </div>
+          </div>
+
+          <div class="imagine-card reveal reveal-d3">
+            <div class="imagine-card-image"><!-- adicione <img src="..."/> quando tiver a foto --></div>
+            <div class="imagine-card-content">
+              <span class="imagine-badge">PASSO 03</span>
+              <p>Tenha todos os dados e números do funil do seu consultório diretamente na sua tela através de um sistema de CRM.</p>
+            </div>
+          </div>
+
+          <div class="imagine-card reveal reveal-d4">
+            <div class="imagine-card-image"><!-- adicione <img src="..."/> quando tiver a foto --></div>
+            <div class="imagine-card-content">
+              <span class="imagine-badge">PASSO 04</span>
+              <p>A renda do seu consultório cresce com previsibilidade e constância todos os meses.</p>
+            </div>
+          </div>
+        </div>
       </div>
 
-      <div class="imagine-flow">
-        <div class="imagine-row reveal reveal-d1">
-          <div class="imagine-step">01</div>
-          <div class="imagine-row-content">
-            <h3>Captação inteligente</h3>
-            <p>Pacientes qualificados chegam até você através de captação inteligente e da autoridade que o seu posicionamento transmite.</p>
-          </div>
-        </div>
-
-        <div class="imagine-row reveal reveal-d2">
-          <div class="imagine-step">02</div>
-          <div class="imagine-row-content">
-            <h3>Atendimento comercial com IA</h3>
-            <p>Atendimento comercial da sua equipe treinada e com apoio da IA que atende, qualifica, agenda e leva o paciente até a cadeira do seu consultório.</p>
-          </div>
-        </div>
-
-        <div class="imagine-row reveal reveal-d3">
-          <div class="imagine-step">03</div>
-          <div class="imagine-row-content">
-            <h3>CRM com dados em tempo real</h3>
-            <p>Tenha todos os dados e números do funil do seu consultório diretamente na sua tela através de um sistema de CRM.</p>
-          </div>
-        </div>
-
-        <div class="imagine-row reveal reveal-d4">
-          <div class="imagine-step">04</div>
-          <div class="imagine-row-content">
-            <h3>Renda previsível e constante</h3>
-            <p>A renda do seu consultório cresce com previsibilidade e constância todos os meses.</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="imagine-foot reveal">
-        <p>É para isso que a Nevel existe. Você foca na sua <span>especialidade</span> e nós cuidamos do <span>crescimento</span>.</p>
-        <a href="#contato" class="btn btn-primary btn-icon-arrow">
-          <div class="dots_border"></div>
-          <span class="text_button">Quero mais informações</span>
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-        </a>
-      </div>
     </div>
   </section>
+
+  <!-- Box CTA sobreposto na transição entre dark (imagine) e light (about) -->
+  <div class="imagine-cta-wrap reveal">
+    <div class="imagine-bottom-cta">
+      <h2>É para isso que a Nevel existe. Você foca na sua especialidade e nós cuidamos do crescimento.</h2>
+      <a href="#contato" class="btn btn-primary btn-icon-arrow">
+        <div class="dots_border"></div>
+        <span class="text_button">Quero meu diagnóstico</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+  </div>
 
   <!-- ═══════════════ DOBRA 07 — SOBRE ═══════════════ -->
   <section class="about" id="sobre">
     <div class="container">
       <div class="about-grid">
         <div class="about-content reveal">
-          <div class="eyebrow">Quem somos</div>
-          <h2>Nevel MED nasceu de uma frustração: ver médicos talentosos perdendo pacientes por falta de estrutura.</h2>
-          <p>Fundada por Riquelme e Gabriel, a Nevel MED nasceu de uma frustração: ver médicos talentosos perdendo pacientes e dinheiro por falta de estrutura comercial.</p>
-          <p>Com mais de 4 anos de experiência, somos especialistas em Marketing, IA, automação, dados e estratégias comerciais para o mercado da saúde. E percebemos que o problema não é falta de pacientes no mercado. É falta de uma metodologia que funciona.</p>
-          <p>Hoje construímos estratégias de marketing e vendas que integram tráfego, automação e CRM, transformando clínicas desorganizadas em máquinas de crescimento previsível.</p>
+          <h2>Quem somos?</h2>
+          <div class="about-paragraphs">
+            <p>Fundada por Riquelme e Gabriel, a Nevel MED nasceu de uma frustração: ver médicos talentosos perdendo pacientes e dinheiro por falta de estrutura comercial.</p>
+            <p>Com mais de 4 anos de experiência, somos especialistas em Marketing, IA, automação, dados e estratégias comerciais para o mercado da saúde. E percebemos que o problema não é falta de pacientes no mercado. É falta de uma metodologia que funciona.</p>
+            <p>Hoje construímos estratégias de marketing e vendas que integram tráfego, automação e CRM, transformando clínicas desorganizadas em máquinas de crescimento previsível.</p>
+          </div>
+
+          <div class="about-stats">
+            <div class="about-stat">
+              <div class="about-stat-num">+4</div>
+              <div class="about-stat-label">Anos de experiência</div>
+            </div>
+            <div class="about-stat">
+              <div class="about-stat-num">3C</div>
+              <div class="about-stat-label">Metodologia própria</div>
+            </div>
+            <div class="about-stat">
+              <div class="about-stat-num">100%</div>
+              <div class="about-stat-label">Foco em saúde</div>
+            </div>
+            <a href="#contato" class="btn btn-primary btn-icon-arrow">
+              <div class="dots_border"></div>
+              <span class="text_button">Quero meu diagnóstico</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+            </a>
+          </div>
         </div>
 
-        <div class="about-visual reveal reveal-d1">
-          <div class="about-visual-tag">Nevel MED · 2026</div>
-          <div class="about-visual-stats">
-            <div>
-              <div class="about-stat-num"><span>+4</span> anos</div>
-              <div class="about-stat-label">de experiência no mercado de saúde</div>
-            </div>
-            <div class="about-divider"></div>
-            <div>
-              <div class="about-stat-num">3<span>C</span></div>
-              <div class="about-stat-label">Captação · Comercial · Controle</div>
-            </div>
-            <div class="about-divider"></div>
-            <div>
-              <div class="about-stat-num"><span>100%</span></div>
-              <div class="about-stat-label">focados em médicos, clínicas e consultórios</div>
-            </div>
-          </div>
+        <div class="about-photo reveal reveal-d1">
+          <img src="fundadores.webp" alt="Riquelme e Gabriel, fundadores da Nevel MED" loading="lazy" />
         </div>
       </div>
     </div>
@@ -2220,21 +2386,36 @@
     }
 
 
-    // Method 3C — sync hover between wedge and label
-    const diagram = document.getElementById('methodDiagram');
-    if (diagram) {
-      const setActive = (n) => {
-        if (n) diagram.setAttribute('data-active', n);
-        else   diagram.removeAttribute('data-active');
-        diagram.querySelectorAll('.pillar-label').forEach((el) => {
-          el.classList.toggle('active', el.dataset.pillar === n);
+
+    // ───────── Método 3C — sincroniza hover entre wedge ↔ texto ─────────
+    (function() {
+      const diagram = document.getElementById('methodDiagram');
+      if (!diagram) return;
+      const map = [
+        { wedge: '.wedge-left',  pillar: '.pillar-1', id: '1' },
+        { wedge: '.wedge-top',   pillar: '.pillar-2', id: '2' },
+        { wedge: '.wedge-right', pillar: '.pillar-3', id: '3' },
+      ];
+      map.forEach(({ wedge, pillar, id }) => {
+        const w = diagram.querySelector(wedge);
+        const p = diagram.querySelector(pillar);
+        const enter = () => diagram.setAttribute('data-active', id);
+        const leave = () => diagram.removeAttribute('data-active');
+        [w, p].forEach((el) => {
+          if (!el) return;
+          el.addEventListener('mouseenter', enter);
+          el.addEventListener('mouseleave', leave);
         });
-      };
-      diagram.querySelectorAll('.wedge, .pillar-label').forEach((el) => {
-        el.addEventListener('mouseenter', () => setActive(el.dataset.pillar));
-        el.addEventListener('mouseleave', () => setActive(null));
       });
-    }
+    })();
+
+    // ───────── Arcos por fatia — calcula tamanho de cada path pra draw-in suave ─────────
+    (function() {
+      document.querySelectorAll('.method-diagram .arc-segment').forEach((p) => {
+        const len = p.getTotalLength();
+        p.style.setProperty('--seg-len', len);
+      });
+    })();
   </script>
 </body>
 </html>
